@@ -17,12 +17,15 @@ typedef struct {
 */
 COLUMN *create_column(char* title){
     COLUMN *new_column = (COLUMN*)malloc(sizeof(COLUMN));
+    if (new_column == NULL) {
+        fprintf(stderr, "Erreur d'allocation de mémoire\n");
+        return 0;
+    }
     new_column->titre = (char*)malloc((strlen(title) + 1) * sizeof(char));
     strcpy(new_column->titre,title); // Copie de la chaîne de titre
     new_column->donnees = NULL; // Allocation initiale
     new_column->taille_logique = 0; // Initialisation de la taille logique à 0
     new_column->taille_physique = 0; // Initialisation de la taille physique
-    printf("%p",new_column);
     return new_column;
 
 }
@@ -60,20 +63,21 @@ int insert_value(COLUMN* col, int value){
 void delete_column(COLUMN **col) {
     if (col == NULL || *col == NULL) {
         fprintf(stderr, "La colonne est NULL\n");
-        return;
     }
+    else{
 
-    // Libérer le tableau de données
-    free((*col)->donnees);
-    (*col)->donnees = NULL;
+        // Libérer le tableau de données
+        free((*col)->donnees);
+        (*col)->donnees = NULL;
 
-    // Libérer le titre de la colonne
-    free((*col)->titre);
-    (*col)->titre = NULL;
+        // Libérer le titre de la colonne
+        free((*col)->titre);
+        (*col)->titre = NULL;
 
-    // Libérer la structure de la colonne
-    free(*col);
-    *col = NULL;
+        // Libérer la structure de la colonne
+        free(*col);
+        *col = NULL;
+    }
 }
 
 
@@ -82,12 +86,21 @@ void delete_column(COLUMN **col) {
 * @param: Pointer to a column
 */
 void print_col(COLUMN* col){
-    for (int i = 0; i < col->taille_logique;i++){
-        printf("[%d] %d\n",i,col->donnees[i]);
+    if (col == NULL){
+        fprintf(stderr, "La colonne est NULL\n");
+    }
+    else{
+        for (int i = 0; i < col->taille_logique;i++) {
+            printf("[%d] %d\n", i, col->donnees[i]);
+        }
     }
 }
 
 int occurence(COLUMN* col, int x){
+    if (col == NULL){
+        fprintf(stderr, "La colonne est NULL\n");
+        return -1;
+    }
     int occ = 0;
     for (int i = 0; i < col->taille_logique;i++) {
         if (col->donnees[i] == x){
@@ -98,6 +111,10 @@ int occurence(COLUMN* col, int x){
 }
 
 int recherche(COLUMN* col, int indice) {
+    if (col == NULL){
+        fprintf(stderr, "La colonne est NULL\n");
+        return -1;
+    }
     if (indice >= col->taille_logique){
         printf("La position %d est superieur a la taille du tableau",indice);
         return -1;
@@ -106,6 +123,10 @@ int recherche(COLUMN* col, int indice) {
 }
 
 int nb_val_sup(COLUMN* col, int val){
+    if (col == NULL){
+        fprintf(stderr, "La colonne est NULL\n");
+        return -1;
+    }
     int nb = 0;
     for (int i = 0; i < col->taille_logique;i++) {
         if (val < col->donnees[i]){
@@ -116,6 +137,10 @@ int nb_val_sup(COLUMN* col, int val){
 }
 
 int nb_val_inf(COLUMN* col, int val){
+    if (col == NULL){
+        fprintf(stderr, "La colonne est NULL\n");
+        return -1;
+    }
     int nb = 0;
     for (int i = 0; i < col->taille_logique;i++) {
         if (val > col->donnees[i]) {
@@ -126,6 +151,10 @@ int nb_val_inf(COLUMN* col, int val){
 }
 
 int nb_val_egal(COLUMN* col, int val){
+    if (col == NULL){
+        fprintf(stderr, "La colonne est NULL\n");
+        return -1;
+    }
     int nb = 0;
     for (int i = 0; i < col->taille_logique;i++) {
         if (val == col->donnees[i]){

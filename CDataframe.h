@@ -50,6 +50,25 @@ void Remplissage_utilisateur(CDataframe *df){
             printf("Entrez le titre de la colonne %d : ", i );
             fgets(titre, sizeof(titre), stdin);
             titre[strcspn(titre, "\n")] = '\0';
+            int exist = 0;
+            for (int k = 0; k < df->taille_log; k++){
+                if (strcmp(titre,df->column[k]->titre)==0){
+                    printf("Ce nom de colonne est deja attribue.\n");
+                    exist = 1;
+                }
+            }
+            while(exist == 1){
+                printf("Entrez le titre de la colonne %d : ", i );
+                fgets(titre, sizeof(titre), stdin);
+                titre[strcspn(titre, "\n")] = '\0';
+                exist = 0;
+                for (int k = 0; k < df->taille_log; k++){
+                    if (strcmp(titre,df->column[k]->titre)==0){
+                        printf("Ce nom de colonne est deja attribue.\n");
+                        exist = 1;
+                    }
+                }
+            }
 
             COLUMN *mycol = create_column(titre);
 
@@ -80,8 +99,8 @@ void Remplissage_dur(CDataframe *df){
             fprintf(stderr, "Erreur d'allocation de mémoire\n");
         }
         df->column = new_df;
-        COLUMN *mycol = create_column("gg");
-        COLUMN *mcol = create_column("jjk");
+        COLUMN *mycol = create_column("Pays");
+        COLUMN *mcol = create_column("Departement");
         insert_value(mycol, 2);
         insert_value(mycol, 4);
         insert_value(mcol, 3);
@@ -113,18 +132,49 @@ void afficher_dataframe(CDataframe *df){
 }
 
 // Afficher une partie des lignes du CDataframe selon une limite fournie par l'utilisateur
-void afficher_ligne(const CDataframe *df, int limit){
+void afficher_ligne(CDataframe *df, int limit){
     if (df == NULL){
         fprintf(stderr, "Le Dataframe est NULL\n");    }
     else{
+        if (limit > df->column[0]->taille_logique){
+            limit = df->column[0]->taille_logique;
+        }
+        for (int k = 0 ; k < df->taille_log ; k++) {
+            printf(" %s ",df->column[k]->titre);
+        }
+        printf("\n");
+        for (int i = 0 ; i < limit ; i++){
+            for (int j = 0 ; j < df->taille_log ; j++){
 
+                printf(" %d ",((df->column[j])->donnees)[i]);
+            }
+            printf("\n");
+        }
     }
 }
 
 // Afficher une partie des colonnes du CDataframe selon une limite fournie par l'utilisateur
-void afficher_colonne(const CDataframe *df, int limit){
+void afficher_colonne(CDataframe *df, int limit){
     if (df == NULL){
-        fprintf(stderr, "Le Dataframe est NULL\n");    }
+        fprintf(stderr, "Le Dataframe est NULL\n");
+    }
+    else{
+        if (limit>df->taille_log){
+            limit = df->taille_log;
+        }
+        for (int k = 0 ; k < limit ; k++) {
+            printf(" %s ",df->column[k]->titre);
+        }
+        printf("\n");
+        int taille = (df->column[0])->taille_logique;
+        for (int i = 0 ; i < taille ; i++){
+            for (int j = 0 ; j < limit ; j++){
+
+                printf(" %d ",((df->column[j])->donnees)[i]);
+            }
+            printf("\n");
+        }
+    }
 }
 
 // Ajouter une ligne de valeurs au CDataframe
@@ -169,6 +219,7 @@ void ajouter_colonne(CDataframe *df){
         char titre[256]; // Taille maximale du titre
         printf("Entrez le titre de la colonne que vous voulez ajouter : " );
         fgets(titre, sizeof(titre), stdin);
+        fgets(titre, sizeof(titre), stdin);
         titre[strcspn(titre, "\n")] = '\0';
 
         COLUMN *mycol = create_column(titre);
@@ -193,6 +244,7 @@ void supprimer_colonne(CDataframe *df){
     else{
         char titre[256]; // Taille maximale du titre
         printf("Entrez le titre de la colonne que vous voulez supprimer : " );
+        fgets(titre, sizeof(titre), stdin);
         fgets(titre, sizeof(titre), stdin);
         titre[strcspn(titre, "\n")] = '\0';
 
@@ -221,18 +273,40 @@ void renommer_colonne(CDataframe *df){
     }
     else{
         int trouver = 0;
-        printf("Quel est le titre de la colonne que vous voulez renommer : ");
         char titre[256];
+        printf("Donner le titre de la colonne que vous voulez renommer : ");
+        fgets(titre, sizeof(titre), stdin);
         fgets(titre, sizeof(titre), stdin);
         titre[strcspn(titre, "\n")] = '\0';
         for (int i = 0; i < df->taille_log; i++){
             if (strcmp(df->column[i]->titre,titre)== 0 ){
                 trouver = 1;
-                printf("Quel est le nouveau nom de la colonne : " );
                 char new_titre[256];
+                printf("Quel est le nouveau nom de la colonne : " );
                 fgets(new_titre, sizeof(new_titre), stdin);
                 new_titre[strcspn(new_titre, "\n")] = '\0';
-                free(df->column[i]->titre);
+
+                int exist = 0;
+                for (int k = 0; k < df->taille_log; k++){
+                    if (strcmp(new_titre,df->column[k]->titre)==0){
+                        printf("Ce nom de colonne est deja attribue.\n");
+                        exist = 1;
+                    }
+                }
+                while(exist == 1){
+                    printf("Quel est le nouveau nom de la colonne : " );
+                    fgets(new_titre, sizeof(new_titre), stdin);
+                    new_titre[strcspn(new_titre, "\n")] = '\0';
+                    exist = 0;
+                    for (int k = 0; k < df->taille_log; k++){
+                        if (strcmp(new_titre,df->column[k]->titre)== 0){
+                            printf("Ce nom de colonne est deja attribue.\n");
+                            exist = 1;
+                        }
+                    }
+                }
+
+
                 strcpy(df->column[i]->titre,new_titre);
             }
         }
@@ -249,18 +323,19 @@ int verif_valeur( CDataframe *df){
         return 0;
     }
     else{
-        int trouver = 0;
         int val = 0;
         printf("Quelle valeur voulez-vous rechercher : ");
         scanf("%d",&val);
         for (int i = 0 ; i < df->taille_log ; i++) {
             for (int j = 0; j < df->column[i]->taille_logique; j++) {
                 if (df->column[i]->donnees[j] == val){
-                    trouver = 1;
+                    printf("La valeur a ete trouve.\n");
+                    return 1;
                 }
             }
         }
-        return trouver;
+        printf("La valeur n'a pas ete trouve.\n");
+        return 0;
     }
 
 }
@@ -275,7 +350,7 @@ void remplacer_valeur(CDataframe *df){
         printf("Saisissez le numero de colonne de la valeur que vous voulez changer : ");
         scanf("%d",&c);
         while (c >= df->taille_log){
-            printf("Vous avez saisie un numero de colonne supperieur au ombre de colonne.\n");
+            printf("Vous avez saisie un numero de colonne supperieur au nombre de colonne.\n");
             printf("Resaisissez le numero de colonne de la valeur que vous voulez changer : ");
             scanf("%d",&c);
         }

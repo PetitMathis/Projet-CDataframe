@@ -1,12 +1,19 @@
+/*
+Un CDataframe
+Viet-tien Tran
+Mathis Petit
+Fichier contenant toutes les fonctions des colonnes
+ */
+
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
 #include "column.h"
 
-/**
-* Create a column
-* @param1 : Column title
-* @return : Pointer to created column
+/*
+Créer une colonne
+parametre : Titre de la colonne
+retourne : Pointeur de la colonne
 */
 COLUMN *create_column(char* title){
     COLUMN *new_column = (COLUMN*)malloc(sizeof(COLUMN));
@@ -24,10 +31,9 @@ COLUMN *create_column(char* title){
 }
 
 /**
-* @brief : Add a new value to a column
-* @param1 : Pointer to a column
-* @param2 : The value to be added
-* @return : 1 if the value is added 0 otherwise
+Ajoute une valeur a la colonne
+parametre : Pointeur de la colonne, valeur ajouter
+retourne : 1 si la valeur est ajouté 0 sinon
 */
 int insert_value(COLUMN* col, int value){
     if (col == NULL){
@@ -50,8 +56,8 @@ int insert_value(COLUMN* col, int value){
 }
 
 /**
-* Free allocated memory
-* @param col : Pointer to a column
+Suprimme une colonne
+parametre : Pointeur du pointeur de la colonne
 */
 void delete_column(COLUMN **col) {
     if (col == NULL || *col == NULL) {
@@ -75,8 +81,8 @@ void delete_column(COLUMN **col) {
 
 
 /**
-* @brief: Print a column content
-* @param: Pointer to a column
+Afficher la colonne
+parametre : Pointeur de la colonne
 */
 void print_col(COLUMN* col){
     if (col == NULL){
@@ -89,6 +95,11 @@ void print_col(COLUMN* col){
     }
 }
 
+/*
+Nombre de cellules contenant une valeur égale à x
+parametre : Pointeur de la colonne, valeur x
+Retourne nombre d'occurence
+*/
 int occurence(COLUMN* col, int x){
     if (col == NULL){
         fprintf(stderr, "La colonne est NULL\n");
@@ -103,6 +114,11 @@ int occurence(COLUMN* col, int x){
     return occ;
 }
 
+/*
+Rechercher une valeur dans la colonne grace a l'indice
+parametre : Pointeur de la colonne, indice
+Retourne la valeur
+*/
 int recherche(COLUMN* col, int indice) {
     if (col == NULL){
         fprintf(stderr, "La colonne est NULL\n");
@@ -115,6 +131,11 @@ int recherche(COLUMN* col, int indice) {
     return col->donnees[indice];
 }
 
+/*
+Nombre de cellules contenant une valeur supérieur à x
+parametre : Pointeur de la colonne, valeur x
+Retourne nombre de cellules supérieur
+*/
 int nb_val_sup(COLUMN* col, int val){
     if (col == NULL){
         fprintf(stderr, "La colonne est NULL\n");
@@ -129,6 +150,11 @@ int nb_val_sup(COLUMN* col, int val){
     return nb;
 }
 
+/*
+Nombre de cellules contenant une valeur inférieur à x
+parametre : Pointeur de la colonne, valeur x
+Retourne nombre de cellules inférieur
+*/
 int nb_val_inf(COLUMN* col, int val){
     if (col == NULL){
         fprintf(stderr, "La colonne est NULL\n");
@@ -137,20 +163,6 @@ int nb_val_inf(COLUMN* col, int val){
     int nb = 0;
     for (int i = 0; i < col->taille_logique;i++) {
         if (val > col->donnees[i]) {
-            nb++;
-        }
-    }
-    return nb;
-}
-
-int nb_val_egal(COLUMN* col, int val){
-    if (col == NULL){
-        fprintf(stderr, "La colonne est NULL\n");
-        return -1;
-    }
-    int nb = 0;
-    for (int i = 0; i < col->taille_logique;i++) {
-        if (val == col->donnees[i]){
             nb++;
         }
     }

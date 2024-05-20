@@ -1,3 +1,10 @@
+/*
+Un CDataframe
+Viet-tien Tran
+Mathis Petit
+Fichier contenant le main
+ */
+
 #include "CDataframe.h"
 
 
@@ -133,5 +140,3 @@ int main() {
 
     return 0;
 }
-// Created by Mathis on 22/04/2024.
-//

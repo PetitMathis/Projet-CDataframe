@@ -1,7 +1,14 @@
+/*
+Un CDataframe
+Viet-tien Tran
+Mathis Petit
+Fichier contenant toutes les fonctions du Cdataframe
+ */
 #include "CDataframe.h"
 
 
 // Création d'un CDataframe vide
+// retourne : Pointeur du dataframe
 CDataframe *create_dataframe(){
     CDataframe *new_cdata = (CDataframe*)malloc(sizeof(CDataframe));
     if (new_cdata == NULL){
@@ -16,6 +23,7 @@ CDataframe *create_dataframe(){
 
 
 // Remplissage du CDataframe à partir de saisies utilisateurs
+// parmetre : Pointeur du dataframe
 void Remplissage_utilisateur(CDataframe *df){
     if (df == NULL){
         fprintf(stderr, "Le Dataframe est NULL\n");    }
@@ -80,6 +88,7 @@ void Remplissage_utilisateur(CDataframe *df){
 }
 
 // Remplissage en dur du CDataframe
+// parmetre : Pointeur du dataframe
 void Remplissage_dur(CDataframe *df){
     if (df == NULL){
         fprintf(stderr, "Le Dataframe est NULL\n");    }
@@ -104,6 +113,7 @@ void Remplissage_dur(CDataframe *df){
 
 
 // Afficher tout le CDataframe
+// parmetre : Pointeur du dataframe
 void afficher_dataframe(CDataframe *df){
     if (df == NULL){
         fprintf(stderr, "Le Dataframe est NULL\n");    }
@@ -124,6 +134,7 @@ void afficher_dataframe(CDataframe *df){
 }
 
 // Afficher une partie des lignes du CDataframe selon une limite fournie par l'utilisateur
+// parmetre : Pointeur du dataframe, entier correspondant a la limite
 void afficher_ligne(CDataframe *df, int limit){
     if (df == NULL){
         fprintf(stderr, "Le Dataframe est NULL\n");    }
@@ -146,6 +157,7 @@ void afficher_ligne(CDataframe *df, int limit){
 }
 
 // Afficher une partie des colonnes du CDataframe selon une limite fournie par l'utilisateur
+// parmetre : Pointeur du dataframe
 void afficher_colonne(CDataframe *df, int limit){
     if (df == NULL){
         fprintf(stderr, "Le Dataframe est NULL\n");
@@ -170,6 +182,7 @@ void afficher_colonne(CDataframe *df, int limit){
 }
 
 // Ajouter une ligne de valeurs au CDataframe
+// parmetre : Pointeur du dataframe
 void ajouter_ligne(CDataframe *df){
     if (df == NULL){
         fprintf(stderr, "Le Dataframe est NULL\n");    }
@@ -185,6 +198,7 @@ void ajouter_ligne(CDataframe *df){
 }
 
 // Supprimer une ligne de valeurs du CDataframe
+// parmetre : Pointeur du dataframe
 void supprimer_ligne(CDataframe *df){
     if (df == NULL){
         fprintf(stderr, "Le Dataframe est NULL\n");    }
@@ -196,6 +210,7 @@ void supprimer_ligne(CDataframe *df){
 }
 
 // Ajouter une colonne au CDataframe
+// parmetre : Pointeur du dataframe
 void ajouter_colonne(CDataframe *df){
     if (df == NULL){
         fprintf(stderr, "Le Dataframe est NULL\n");    }
@@ -229,6 +244,7 @@ void ajouter_colonne(CDataframe *df){
 }
 
 // Supprimer une colonne du CDataframe
+// parmetre : Pointeur du dataframe
 void supprimer_colonne(CDataframe *df){
     if (df == NULL){
         fprintf(stderr, "Le Dataframe est NULL\n");
@@ -259,6 +275,7 @@ void supprimer_colonne(CDataframe *df){
 }
 
 // Renommer le titre d'une colonne du CDataframe
+// parmetre : Pointeur du dataframe
 void renommer_colonne(CDataframe *df){
     if (df == NULL){
         fprintf(stderr, "Le Dataframe est NULL\n");
@@ -309,6 +326,8 @@ void renommer_colonne(CDataframe *df){
 }
 
 // Vérifier l'existence d'une valeur (recherche) dans le CDataframe
+// parmetre : Pointeur du dataframe
+//retourne : 1 si la valeur est trouvé 0 sinon
 int verif_valeur( CDataframe *df){
     if (df == NULL){
         fprintf(stderr, "Le Dataframe est NULL\n");
@@ -333,6 +352,7 @@ int verif_valeur( CDataframe *df){
 }
 
 // Accéder/remplacer la valeur se trouvant dans une cellule du CDataframe
+// parmetre : Pointeur du dataframe
 void remplacer_valeur(CDataframe *df){
     if (df == NULL){
         fprintf(stderr, "Le Dataframe est NULL\n");
@@ -360,6 +380,7 @@ void remplacer_valeur(CDataframe *df){
 }
 
 // Afficher les noms des colonnes
+// parmetre : Pointeur du dataframe
 void afficher_noms_colonnes(CDataframe *df){
     if (df == NULL){
         fprintf(stderr, "Le Dataframe est NULL\n");
@@ -372,6 +393,7 @@ void afficher_noms_colonnes(CDataframe *df){
 }
 
 // Afficher le nombre de lignes
+// parmetre : Pointeur du dataframe
 void nombres_lignes(CDataframe *df){
     if (df == NULL){
         fprintf(stderr, "Le Dataframe est NULL\n");
@@ -382,6 +404,7 @@ void nombres_lignes(CDataframe *df){
 }
 
 // Afficher le nombre de colonnes
+// parmetre : Pointeur du dataframe
 void nombres_colonnes(CDataframe *df){
     if (df == NULL){
         fprintf(stderr, "Le Dataframe est NULL\n");
@@ -391,7 +414,11 @@ void nombres_colonnes(CDataframe *df){
     }
 }
 
-// Nombre de cellules contenant une valeur égale à x (x donné en paramètre)
+/*
+Nombre de cellules contenant une valeur égale à x
+parametre : Pointeur du dataframe, valeur x
+Retourne nombre d'occurence
+*/
 int nb_valeur_egal(CDataframe *df, int value){
     if (df == NULL){
         fprintf(stderr, "Le Dataframe est NULL\n");
@@ -406,7 +433,11 @@ int nb_valeur_egal(CDataframe *df, int value){
     }
 }
 
-// Nombre de cellules contenant une valeur supérieure à x (x donné en paramètre)
+/*
+Nombre de cellules contenant une valeur supérieur à x
+parametre : Pointeur du dataframe, valeur x
+Retourne nombre de cellules supérieur
+*/
 int nb_valeur_sup(CDataframe *df, int value){
     if (df == NULL){
         fprintf(stderr, "Le Dataframe est NULL\n");
@@ -421,8 +452,11 @@ int nb_valeur_sup(CDataframe *df, int value){
     }
 }
 
-// Nombre de cellules contenant une valeur inférieure à x (x donné en paramètre)
-int nb_valeur_inf(CDataframe *df, int value){
+/*
+Nombre de cellules contenant une valeur inférieur à x
+parametre : Pointeur du dataframe, valeur x
+Retourne nombre de cellules inferieur
+*/int nb_valeur_inf(CDataframe *df, int value){
     if (df == NULL){
         fprintf(stderr, "Le Dataframe est NULL\n");
         return -1;

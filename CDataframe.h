@@ -59,3 +59,5 @@ int nb_valeur_sup(CDataframe *df, int value);
 
 // Nombre de cellules contenant une valeur inférieure à x (x donné en paramètre)
 int nb_valeur_inf(CDataframe *df, int value);
+
+void delete_Dataframe(CDataframe **df);

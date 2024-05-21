@@ -137,6 +137,6 @@ int main() {
         }
         printf("\n");
     }
-
+    delete_Dataframe(&mydf);
     return 0;
 }

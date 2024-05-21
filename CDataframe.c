@@ -469,3 +469,20 @@ Retourne nombre de cellules inferieur
         return inf;
     }
 }
+
+void delete_Dataframe(CDataframe **df){
+    if (df == NULL || *df == NULL){
+        fprintf(stderr, "Le Dataframe est NULL\n");
+    }
+    else{
+        for (int i = 0; i < (*df)->taille_log ; i++){
+            delete_column(&((*df)->column[i]));
+        }
+
+        free((*df)->column);
+        (*df)->column = NULL;
+
+        free((*df));
+        (*df) = NULL;
+    }
+}

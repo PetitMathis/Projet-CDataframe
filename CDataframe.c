@@ -93,21 +93,40 @@ void Remplissage_dur(CDataframe *df){
     if (df == NULL){
         fprintf(stderr, "Le Dataframe est NULL\n");    }
     else{
-        df->taille_log = 2;
+        df->taille_log = 3;
         df->taille_phy = 256;
-        COLUMN **new_df = (COLUMN **) realloc(df->column, (df->taille_phy) * sizeof(COLUMN*));
+        COLUMN **new_df = (COLUMN **) malloc((df->taille_phy) * sizeof(COLUMN*));
         if (new_df == NULL) {
             fprintf(stderr, "Erreur d'allocation de mémoire\n");
         }
         df->column = new_df;
         COLUMN *mycol = create_column("Pays");
         COLUMN *mcol = create_column("Departement");
+        COLUMN *col = create_column("ville");
         insert_value(mycol, 2);
         insert_value(mycol, 4);
         insert_value(mcol, 3);
         insert_value(mcol, 9);
+        insert_value(mycol, 4);
+        insert_value(mcol, 3);
+        insert_value(mycol, 4);
+        insert_value(mcol, 3);insert_value(mycol, 4);
+        insert_value(mcol, 3);insert_value(mycol, 4);
+        insert_value(mcol, 3);insert_value(mycol, 4);
+        insert_value(mcol, 3);insert_value(mycol, 4);
+        insert_value(mcol, 3);
+        insert_value(col, 3);
+        insert_value(col, 3);
+        insert_value(col, 3);
+        insert_value(col, 3);
+        insert_value(col, 3);
+        insert_value(col, 3);
+        insert_value(col, 3);
+        insert_value(col, 3);
         *(df->column) = mycol;
         *(df->column + 1) = mcol;
+        *(df->column + 2) = col;
+
     }
 }
 
@@ -470,19 +489,23 @@ Retourne nombre de cellules inferieur
     }
 }
 
-void delete_Dataframe(CDataframe **df){
-    if (df == NULL || *df == NULL){
+void delete_dataframe(CDataframe **df){
+    if (df == NULL || *df == NULL) {
         fprintf(stderr, "Le Dataframe est NULL\n");
     }
     else{
-        for (int i = 0; i < (*df)->taille_log ; i++){
-            delete_column(&((*df)->column[i]));
+
+        // Libérer les colonnes
+        for (int i = 0;i < (*df)->taille_log; i++) {
+            delete_column(&(*df)->column[i]);
         }
 
+        // Libérer le tableau de données
         free((*df)->column);
         (*df)->column = NULL;
 
-        free((*df));
-        (*df) = NULL;
+        // Libérer la structure de la colonne
+        free(*df);
+        *df = NULL;
     }
 }

@@ -1,3 +1,4 @@
+
 /*
 Un CDataframe
 Viet-tien Tran
@@ -14,7 +15,7 @@ int main() {
     Remplissage_dur(mydf);
     while (b==0){
         printf("0--Quitter\n");
-        printf("1--Repmlir le dataframe\n");
+        printf("1--Reinitialiser le dataframe\n");
         printf("2--Ajouter une ligne.\n");
         printf("3--Suprimmer une ligne.\n");
         printf("4--Ajouter une colonne.\n");
@@ -37,10 +38,13 @@ int main() {
         scanf("%d",&a);
         switch (a) {
             case 0: {
+                delete_dataframe(&mydf);
                 b = 1;
                 break;
             }
             case 1: {
+                delete_dataframe(&mydf);
+                CDataframe *mydf = create_dataframe();
                 Remplissage_utilisateur(mydf);
                 afficher_dataframe(mydf);
                 break;
@@ -137,6 +141,6 @@ int main() {
         }
         printf("\n");
     }
-    delete_Dataframe(&mydf);
+
     return 0;
 }
